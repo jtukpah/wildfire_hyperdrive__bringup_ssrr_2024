@@ -16,6 +16,8 @@
         <arg name="offset_y" value="0" />          
     </include>    <!-- Start HSI Processor -->
     <!-- Point Spectrometers -->
-    <include file="$(find spectrometer_drivers)/launch/ibsen.launch">
-    </include>
+    <!-- <include file="$(find spectrometer_drivers)/launch/ibsen.launch">
+    </include> -->
+    <!-- <node pkg="rosbag" type="record" name="rosbag_record_cam"
+          args="record -O cam_imgs /camera/image_raw /ximea/raw_data /imec/raw_data" /> -->
 </launch>
