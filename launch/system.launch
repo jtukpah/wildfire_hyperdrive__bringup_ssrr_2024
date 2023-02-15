@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Hyperspectral Cameras -->
+    <include file="$(find hsi_driver)/launch/master.launch">
+        <arg name="use_imec" value="true" />
+        <arg name="use_ximea" value="true"/>
+        <arg name="gui" value="true"/>       
+    </include> 
+    <!-- RGB HD Camera -->
+    <include file="$(find avt_vimba_camera)/launch/mono_camera.launch">
+        <arg name="guid" value="DEV_1AB22C025217" />
+        <arg name="pixel_format" value="RGB8"/>
+        <arg name="height" value="2054" />   
+        <!-- <arg name="width" value="2464" /> This param causes issues when set -->
+        <arg name="offset_x" value="0" />
+        <arg name="offset_y" value="0" />          
+    </include>    <!-- Start HSI Processor -->
+    <!-- Point Spectrometers -->
+    <include file="$(find spectrometer_drivers)/launch/ibsen.launch">
+    </include>
+</launch>
