@@ -97,9 +97,9 @@ catkin build
 ```
 
 ### Install the HSI Camera Drivers
+Download the installer from [here](https://drive.google.com/file/d/144VeiSKskj5Odsx4x5FuxGPBnbSrDu-J/view?usp=sharing).
 
 ```
-cd catkin_ws/src/hyperdrive_bringup/resources
 sudo dpkg -i hsi_mosaic-linux-x86_64-installer.deb 
 cd /opt/imec/hsi-mosaic/resources/installers
 tar xzf XIMEA_Linux_SP.tgz
