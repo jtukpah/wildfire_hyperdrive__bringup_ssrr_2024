@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="record" default="false" />
+  <arg name="camera" default="/camera" />
+  <arg name="dir"
+    default="/home/river/ssrr_data_collection/ssrr_warthog" />
+
+  <!-- Launch VNIR HSI, SWIR HSI, Pansharpening RGB -->
+  <include file="$(find hyper_drive)/launch/synchronousCameras.launch">
+    <arg name="only_rgb" value="false" />
+    <arg name="viz" value="false" />
+  </include>
+  <!--  roslaunch velodyne_pointcloud VLP16_points.launch  -->
+  <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch"></include>
+
+  <!-- Launch the warthog nodes -->
+  <include
+    file="$(find warthog_description)/launch/description.launch">
+  </include>
+  <include file="$(find warthog_control)/launch/control.launch">
+  </include>
+
+  <!-- Run the lidar camera projection node -->
+  <!-- <include
+    file="$(find lidar_camera_calibration)/launch/display_camera_lidar_calibration.launch">
+  </include> -->
+
+  <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="lidar2baselink"
+    args="0.9 0.12 0.72 0 0 0 top_chassis_link velodyne" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="cam2baselink"
+    args="1.0 -0.14 0.5 0 0 0 top_chassis_link camera" /> -->
+
+  <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="world_velodyne_tf"
+    output="screen"
+    args="-0.46998396 -0.39324878 -0.20517262  0.11591580624468108 -1.4100543775312735
+  1.40719477886540077 world velodyne" /> -->
+
+  <!-- Setup params for Camera-LiDAR calibration script -->
+  <!-- <param
+    name="camera_info_topic" type="str" value="$(arg camera)/camera_info" />
+  <param
+    name="image_color_topic" type="str" value="$(arg camera)/image_raw" />
+  <param
+    name="velodyne_points_topic" type="str" value="/velodyne_points" />
+  <param
+    name="camera_lidar_topic" type="str" value="$(arg camera)/camera_lidar" /> -->
+
+  <!-- <node
+    pkg="hyper_drive" type="lidar_to_img.py" name="lidar_projection" output="screen" /> -->
+
+  <!-- Run image view to display the projected points image -->
+  <!-- <node
+    name="camera_lidar_projection" pkg="image_view" type="image_view"
+    respawn="false"
+    output="screen" />
+  <remap from="image" to="$(arg camera)/camera_lidar" /> -->
+  <!-- Record the bag file after 2s of starting of all nodes -->
+
+
+  <node
+    pkg="rosbag" type="record"
+    name="rosbag_record_warthog"
+    launch-prefix="bash -c 'sleep 2; $0 $@' "
+    args="record -b 3048 -o $(arg dir) -e /synchronous_cubes /velodyne_points /registered_cube /camera/image_raw /camera/camera_info"
+    if="$(arg record)" />
+
+  <node type="rviz" name="rviz" pkg="rviz"
+    args="-d $(find hyper_drive)/rviz_configs/hsi_default.rviz" />
+
+</launch>

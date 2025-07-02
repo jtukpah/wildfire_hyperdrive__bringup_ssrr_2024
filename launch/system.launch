@@ -5,8 +5,7 @@
     </include> 
     <!-- Start HSI Processor -->
     <!-- Point Spectrometers -->
-    <!-- <include file="$(find spectrometer_drivers)/launch/ibsen.launch">
-    </include> -->
+    <include file="$(find spectrometer_drivers)/launch/ibsen.launch">
     <!-- Fiber Optic IMU -->
     <include file="$(find kvh_driver)/launch/master.launch"/>         
     <!-- <node pkg="rosbag" type="record" name="rosbag_record_cam"
